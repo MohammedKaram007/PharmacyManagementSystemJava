@@ -1,0 +1,28 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace project1
+{
+    public class Make1
+    {
+        private int companyID;
+        private string drugBarcode;
+
+        public Make1() { }
+
+        public int CompanyID
+        {
+            get { return companyID; }
+            set { companyID = value; }
+        }
+        public string DrugBarcode
+        {
+            get { return drugBarcode; }
+            set { drugBarcode = value; }
+        }
+
+    }
+}
