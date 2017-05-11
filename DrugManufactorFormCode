@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace project1
+{
+    public partial class Form4 : Form
+    {
+        public Form4()
+        {
+            InitializeComponent();
+        }
+
+        private void Form4_Load(object sender, EventArgs e)
+        {
+            listView1.Items.Clear();
+            List<DrugManufactor1> drug_manufactorList;
+            try
+            {
+                drug_manufactorList = DrugManufactor2.GetDrugManufactor1();
+                if (drug_manufactorList.Count > 0)
+                {
+                    DrugManufactor1 drug_manufactor;
+                    for (int i = 0; i < drug_manufactorList.Count; i++)
+                    {
+                        drug_manufactor = drug_manufactorList[i];
+                        listView1.Items.Add(drug_manufactor.DrugManufactorNumber.ToString());
+                        listView1.Items[i].SubItems.Add(drug_manufactor.CompanyID);
+                        listView1.Items[i].SubItems.Add(drug_manufactor.CompanyName);
+                        listView1.Items[i].SubItems.Add(drug_manufactor.Address);
+                        listView1.Items[i].SubItems.Add(drug_manufactor.Phone);
+                    }
+                }
+                else { MessageBox.Show("There are no Drug Manufactors. ", "Alert"); }
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message, ex.GetType().ToString()); }
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void sumbit_Click(object sender, EventArgs e)
+        {
+            DrugManufactor2.AddDrugManufactor1(txtid.Text, txtname.Text, txtaddress.Text, txtphone.Text);
+            txtid.Text = "";
+            txtname.Text = "";
+            txtaddress.Text = "";
+            txtphone.Text = "";
+            this.Form4_Load(this, null);
+
+        }
+    }
+}
