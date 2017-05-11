@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+
+namespace project1
+{
+    public static class Employee2
+    {
+        public static SqlConnection GetConnection()
+        {
+            string connStr= @"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\HP\Desktop\project1\project1\project1.mdf;Integrated Security=True";
+            SqlConnection conn = new SqlConnection(connStr);
+            return conn;
+        }
+        public static void AddEmployee1(string firstName , string lastName , string phone , string age , string address)
+        {
+            string insStmt = "INSRT INTO EMPLOYEE ( FirstName , LastName , Phone , Age , Address ) VALUES @firstName , @lastName , @phone , @age , @address";
+            SqlConnection conn = GetConnection();
+            SqlCommand insCmd = new SqlCommand(insStmt , conn);
+            insCmd.Parameters.AddWithValue("@firstName", firstName);
+            insCmd.Parameters.AddWithValue("@lastName", lastName);
+            insCmd.Parameters.AddWithValue("@phone", phone);
+            insCmd.Parameters.AddWithValue("@age", age);
+            insCmd.Parameters.AddWithValue("@address", address);
+            try { conn.Open(); insCmd.ExecuteNonQuery(); }
+            catch ( SqlException ex){throw ex;}
+            finally { conn.Close(); }
+        }
+        public static List<Employee1> GetEmployee1()
+        {
+            List<Employee1> employeeList = new List<Employee1>{};
+            SqlConnection conn = GetConnection();
+            string selStmt = "SELECT * FROM EMPLOYEE ORDER BY FirstName";
+            SqlCommand selCmd = new SqlCommand(selStmt, conn);
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = selCmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Employee1 employee = new Employee1();
+                    employee.EmployeeNumber = (int)reader["EmployeeNumber"];
+                    employee.FirstName = reader["FirstName"].ToString();
+                    employee.LastName = reader["LastName"].ToString();
+                    employee.Phone = reader["Phone"].ToString();
+                    employee.Age = reader["Age"].ToString();
+                    employee.Address = reader["Address"].ToString();
+                    employeeList.Add(employee);
+                }
+                reader.Close();
+            }
+            catch (SqlException ex) { throw ex; }
+            finally { conn.Close(); }
+            return employeeList;
+        }
+    }
+}
