@@ -1,0 +1,58 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+
+namespace project1
+{
+    public static class Prescribe2
+    {
+        public static SqlConnection GetConnection()
+        {
+            string connStr = @"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\HP\Desktop\project1\project1\project1.mdf;Integrated Security=True";
+            SqlConnection conn = new SqlConnection(connStr);
+            return conn;
+        }
+        public static void AddPrescribe1(string quantity, string doctorPhone, string drugBarcode, string patientPhone)
+        {
+            string insStmt = "INSRT INTO EMPLOYEE ( Quantity , DoctorPhone , DrugBarcode , PatientPhone) VALUES @quantity , @doctorPhone , @drugBarcode , @patientPhone";
+            SqlConnection conn = GetConnection();
+            SqlCommand insCmd = new SqlCommand(insStmt, conn);
+            insCmd.Parameters.AddWithValue("@quantity", quantity);
+            insCmd.Parameters.AddWithValue("@doctorPhone", doctorPhone);
+            insCmd.Parameters.AddWithValue("@drugBarcode", drugBarcode);
+            insCmd.Parameters.AddWithValue("@patientPhone", patientPhone);
+            try { conn.Open(); insCmd.ExecuteNonQuery(); }
+            catch (SqlException ex) { throw ex; }
+            finally { conn.Close(); }
+        }
+        public static List<Prescribe1> GetPrescribe1()
+        {
+            List<Prescribe1> prescribeList = new List<Prescribe1> { };
+            SqlConnection conn = GetConnection();
+            string selStmt = "SELECT * FROM PRESCRIBE ORDER BY Date1";
+            SqlCommand selCmd = new SqlCommand(selStmt, conn);
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = selCmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Prescribe1 prescribe = new Prescribe1();
+                    prescribe.Date1 = (int)reader["Date1"];
+                    prescribe.Quantity = reader["Quantity"].ToString();
+                    prescribe.DoctorPhone = reader["DoctorPhone"].ToString();
+                    prescribe.DrugBarcode = reader["DrugBarcode"].ToString();
+                    prescribe.PatientPhone = reader["PatientPhone"].ToString();
+                    prescribeList.Add(prescribe);
+                }
+                reader.Close();
+            }
+            catch (SqlException ex) { throw ex; }
+            finally { conn.Close(); }
+            return prescribeList;
+        }
+    }
+}
