@@ -1,0 +1,56 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace project1
+{
+    public class Patient1
+    {
+        private int patientID;
+        private string patientName;
+        private string patientPhone;
+        private string patientAddress;
+        private string patientCondition;
+        private string patientAge;
+        private string doctorPhone;
+        public Patient1() { }
+
+        public int PatientID
+        {
+            get { return patientID; }
+            set { patientID = value; }
+        }
+        public string PatientName
+        {
+            get { return patientName; }
+            set { patientName = value; }
+        }
+        public string PatientPhone
+        {
+            get { return patientPhone; }
+            set { patientPhone = value; }
+        }
+        public string PatientAddress
+        {
+            get { return patientAddress; }
+            set { patientAddress = value; }
+        }
+        public string PatientCondition
+        {
+            get { return patientCondition; }
+            set { patientCondition = value; }
+        }
+        public string PatientAge
+        {
+            get { return patientAge; }
+            set { patientAge = value; }
+        }
+        public string DoctorPhone
+        {
+            get { return doctorPhone; }
+            set { doctorPhone = value; }
+        }
+    }
+}
