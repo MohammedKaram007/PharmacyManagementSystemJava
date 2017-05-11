@@ -1,0 +1,70 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace project1
+{
+    public partial class Drug : Form
+    {
+        public Drug()
+        {
+            InitializeComponent();
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Drug_Load(object sender, EventArgs e)
+        {
+            listView1.Items.Clear();
+            List<Drug1> drugList;
+            try
+            {
+                drugList = Drug2.GetDrug1();
+                if (drugList.Count > 0)
+                {
+                    Drug1 drug;
+                    for (int i = 0; i < drugList.Count; i++)
+                    {
+                        drug = drugList[i];
+                        listView1.Items.Add(drug.DrugID.ToString());
+                        listView1.Items[i].SubItems.Add(drug.DrugName);
+                        listView1.Items[i].SubItems.Add(drug.Barcode);
+                        listView1.Items[i].SubItems.Add(drug.Price);
+                        listView1.Items[i].SubItems.Add(drug.CompanyName);
+                        listView1.Items[i].SubItems.Add(drug.Amount);
+                        listView1.Items[i].SubItems.Add(drug.Validity);
+                    }
+                }
+                else { MessageBox.Show("There are no Employees. ", "Alert"); }
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message, ex.GetType().ToString()); }
+        }
+
+        private void sumbit_Click(object sender, EventArgs e)
+        {
+            Drug2.AddDrug1(txtdrugname.Text, txtbarcode.Text, txtprice.Text, txtcompanyname.Text, txtamount.Text, txtvalidity.Text);
+            txtdrugname.Text = "";
+            txtbarcode.Text = "";
+            txtprice.Text = "";
+            txtcompanyname.Text = "";
+            txtamount.Text = "";
+            txtvalidity.Text = "";
+            this.Drug_Load(this, null);
+
+        }
+    }
+}
