@@ -1,0 +1,62 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+
+namespace project1
+{
+    public static class Patient2
+    {
+        public static SqlConnection GetConnection()
+        {
+            string connStr = @"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\HP\Desktop\project1\project1\project1.mdf;Integrated Security=True";
+            SqlConnection conn = new SqlConnection(connStr);
+            return conn;
+        }
+        public static void AddPatient1(string patientName, string patientPhone, string patientAddress, string patientCondition, string patientAge, string doctorPhone)
+        {
+            string insStmt = "INSRT INTO PATIENT ( PatientName , PatientPhone , PatientAddress , PatientCondition , PatientAge , DoctorPhone) VALUES @patientName @patientPhone @patientAddress , @patientCondition , @patientAge , @doctorPhone";
+            SqlConnection conn = GetConnection();
+            SqlCommand insCmd = new SqlCommand(insStmt, conn);
+            insCmd.Parameters.AddWithValue("@patientName", patientName);
+            insCmd.Parameters.AddWithValue("@patientPhone", patientPhone);
+            insCmd.Parameters.AddWithValue("@patientAddress", patientAddress);
+            insCmd.Parameters.AddWithValue("@patientCondition", patientCondition);
+            insCmd.Parameters.AddWithValue("@patientAge", patientAge);
+            insCmd.Parameters.AddWithValue("@doctorPhone", doctorPhone);
+            try { conn.Open(); insCmd.ExecuteNonQuery(); }
+            catch (SqlException ex) { throw ex; }
+            finally { conn.Close(); }
+        }
+        public static List<Patient1> GetPatient1()
+        {
+            List<Patient1> patientList = new List<Patient1> { };
+            SqlConnection conn = GetConnection();
+            string selStmt = "SELECT * FROM PATIENT ORDER BY PatientNumber";
+            SqlCommand selCmd = new SqlCommand(selStmt, conn);
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = selCmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Patient1 patient = new Patient1();
+                    patient.PatientID = (int)reader["PatientNumber"];
+                    patient.PatientName = reader["PatientName"].ToString();
+                    patient.PatientPhone = reader["PatientPhone"].ToString();
+                    patient.PatientAddress = reader["PatientAddress"].ToString();
+                    patient.PatientCondition = reader["PatientCondition"].ToString();
+                    patient.PatientAge = reader["PatientAge"].ToString();
+                    patient.DoctorPhone = reader["DoctorPhone"].ToString();
+                    patientList.Add(patient);
+                }
+                reader.Close();
+            }
+            catch (SqlException ex) { throw ex; }
+            finally { conn.Close(); }
+            return patientList;
+        }
+    }
+}
