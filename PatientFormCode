@@ -1,0 +1,61 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace project1
+{
+    public partial class Patient : Form
+    {
+        public Patient()
+        {
+            InitializeComponent();
+        }
+
+        private void Form6_Load(object sender, EventArgs e)
+        {
+            {
+                listView1.Items.Clear();
+                List<Patient1> patientList;
+                try
+                {
+                    patientList = Patient2.GetPatient1();
+                    if (patientList.Count > 0)
+                    {
+                        Patient1 patient;
+                        for (int i = 0; i < patientList.Count; i++)
+                        {
+                            patient = patientList[i];
+                            listView1.Items.Add(patient.PatientID.ToString());
+                            listView1.Items[i].SubItems.Add(patient.PatientName);
+                            listView1.Items[i].SubItems.Add(patient.PatientPhone);
+                            listView1.Items[i].SubItems.Add(patient.PatientAddress);
+                            listView1.Items[i].SubItems.Add(patient.PatientCondition);
+                            listView1.Items[i].SubItems.Add(patient.PatientAge);
+                            listView1.Items[i].SubItems.Add(patient.DoctorPhone);
+                        }
+                    }
+                    else { MessageBox.Show("There are no Patients. ", "Alert"); }
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message, ex.GetType().ToString()); }
+            }
+        }
+
+        private void submit_Click(object sender, EventArgs e)
+        {
+            Patient2.AddPatient1(txtPName.Text, txtPPhone.Text, txtPAddress.Text, txtPCondition.Text , txtPAge.Text , txtDRPhone.Text);
+            txtPName.Text = "";
+            txtPPhone.Text = "";
+            txtPAddress.Text = "";
+            txtPCondition.Text = "";
+            txtPAge.Text = "";
+            txtDRPhone.Text = "";
+            this.Form6_Load(this, null);
+        }
+    }
+}
