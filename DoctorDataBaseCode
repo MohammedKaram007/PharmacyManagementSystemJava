@@ -1,0 +1,62 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+
+namespace project1
+{
+    public static class Doctor2
+    {
+        public static SqlConnection GetConnection()
+        {
+            string connStr = @"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\HP\Desktop\project1\project1\project1.mdf;Integrated Security=True";
+            SqlConnection conn = new SqlConnection(connStr);
+            return conn;
+        }
+        public static void AddDoctor1(string doctorNumber, string firstName, string lastName, string phone, string address, string email)
+        {
+            string insStmt = "INSRT INTO DOCTOR (DoctorNumber, FirstName , LastName , Phone , Address , Email ) VALUES @doctorNumber @firstName , @lastName , @phone , @address , @email";
+            SqlConnection conn = GetConnection();
+            SqlCommand insCmd = new SqlCommand(insStmt, conn);
+            insCmd.Parameters.AddWithValue("@doctorNumber", doctorNumber);
+            insCmd.Parameters.AddWithValue("@firstName", firstName);
+
+            insCmd.Parameters.AddWithValue("@lastName", lastName);
+            insCmd.Parameters.AddWithValue("@phone", phone);
+            insCmd.Parameters.AddWithValue("@address", address);
+            insCmd.Parameters.AddWithValue("@email", email);
+            try { conn.Open(); insCmd.ExecuteNonQuery(); }
+            catch (SqlException ex) { throw ex; }
+            finally { conn.Close(); }
+        }
+        public static List<Doctor1> GetDoctor1()
+        {
+            List<Doctor1> doctorList = new List<Doctor1> { };
+            SqlConnection conn = GetConnection();
+            string selStmt = "SELECT * FROM DOCTOR ORDER BY doctorNumber ";
+            SqlCommand selCmd = new SqlCommand(selStmt, conn);
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = selCmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Doctor1 doctor = new Doctor1();
+                    doctor.DoctorNumber = (int)reader["DoctorNumber"];
+                    doctor.FirstName = reader["FirstName"].ToString();
+                    doctor.LastName = reader["LastName"].ToString();
+                    doctor.Phone = reader["Phone"].ToString();
+                    doctor.Address = reader["Address"].ToString();
+                    doctor.Email = reader["Email"].ToString();
+                    doctorList.Add(doctor);
+                }
+                reader.Close();
+            }
+            catch (SqlException ex) { throw ex; }
+            finally { conn.Close(); }
+            return doctorList;
+        }
+    }
+}
