@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace project1
+{
+    public class Drug1
+    {
+        private int drugID;
+        private string drugName;
+        private string barcode;
+        private string price;
+        private string companyName;
+        private string amount;
+        private string validity;
+
+        public Drug1() { }
+
+        public int DrugID
+        {
+            get { return drugID; }
+            set { drugID = value; }
+        }
+        public string DrugName
+        {
+            get { return drugName; }
+            set { drugName = value; }
+        }
+        public string Barcode
+        {
+            get { return barcode; }
+            set { barcode = value; }
+        }
+        public string Price
+        {
+            get { return price; }
+            set { price = value; }
+        }
+        public string CompanyName
+        {
+            get { return companyName; }
+            set { companyName = value; }
+        }
+        public string Amount
+        {
+            get { return amount; }
+            set { amount = value; }
+        }
+        public string Validity
+        {
+            get { return validity; }
+            set { validity = value; }
+        }
+    }
+}
