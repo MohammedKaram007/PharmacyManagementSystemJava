@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace project1
+{
+    public class Prescribe1
+    {
+        private int date1;
+        private string quantity;
+        private string doctorPhone;
+        private string drugBarcode;
+        private string patientPhone;
+        public Prescribe1() { }
+
+        public int Date1
+        {
+            get { return date1; }
+            set { date1 = value; }
+        }
+        public string Quantity
+        {
+            get { return quantity; }
+            set { quantity = value; }
+        }
+        public string DoctorPhone
+        {
+            get { return doctorPhone; }
+            set { doctorPhone = value; }
+        }
+        public string DrugBarcode
+        {
+            get { return drugBarcode; }
+            set { drugBarcode = value; }
+        }
+        public string PatientPhone
+        {
+            get { return patientPhone; }
+            set { patientPhone = value; }
+        }
+    }
+}
