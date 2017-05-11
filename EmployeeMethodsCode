@@ -1,0 +1,50 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace project1
+{
+    public class Employee1
+    {
+        private int employeeNumber;
+        private string firstName;
+        private string lastName;
+        private string phone;
+        private string age;
+        private string address;
+        public Employee1() { }
+
+        public int EmployeeNumber
+        {
+            get { return employeeNumber; }
+            set { employeeNumber = value; }
+        }
+        public string FirstName
+        {
+            get { return firstName; }
+            set { firstName = value; }
+        }
+        public string LastName
+        {
+            get { return lastName; }
+            set { lastName = value; }
+        }
+        public string Phone
+        {
+            get { return phone; }
+            set { phone = value; }
+        }
+        public string Age
+        {
+            get { return age; }
+            set { age = value; }
+        }
+        public string Address
+        {
+            get { return address; }
+            set { address = value; }
+        }
+    }
+}
