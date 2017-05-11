@@ -1,0 +1,62 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+
+namespace project1
+{
+    public static class Drug2
+    {
+        public static SqlConnection GetConnection()
+        {
+            string connStr = @"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\HP\Desktop\project1\project1\project1.mdf;Integrated Security=True";
+            SqlConnection conn = new SqlConnection(connStr);
+            return conn;
+        }
+        public static void AddDrug1(string drugName, string barcode, string price, string companyName, string amount, string validity)
+        {
+            string insStmt = "INSRT INTO DRUG ( DrugName , Barcode , Price , CompanyName , Amount ,Validity ) VALUES @drugName , @barcode , @price , @companyName , @amount,@validity";
+            SqlConnection conn = GetConnection();
+            SqlCommand insCmd = new SqlCommand(insStmt, conn);
+            insCmd.Parameters.AddWithValue("@drugName", drugName);
+            insCmd.Parameters.AddWithValue("@barcode", barcode);
+            insCmd.Parameters.AddWithValue("@price", price);
+            insCmd.Parameters.AddWithValue("@companyName", companyName);
+            insCmd.Parameters.AddWithValue("@amount", amount);
+            insCmd.Parameters.AddWithValue("@validity", validity);
+            try { conn.Open(); insCmd.ExecuteNonQuery(); }
+            catch (SqlException ex) { throw ex; }
+            finally { conn.Close(); }
+        }
+        public static List<Drug1> GetDrug1()
+        {
+            List<Drug1> drugList = new List<Drug1> { };
+            SqlConnection conn = GetConnection();
+            string selStmt = "SELECT * FROM EMPLOYEE ORDER BY DrugID";
+            SqlCommand selCmd = new SqlCommand(selStmt, conn);
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = selCmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Drug1 drug = new Drug1();
+                    drug.DrugID = (int)reader["DrugID"];
+                    drug.DrugName = reader["DrugName"].ToString();
+                    drug.Barcode = reader["Barcode"].ToString();
+                    drug.Price = reader["Price"].ToString();
+                    drug.CompanyName = reader["CompanyName"].ToString();
+                    drug.Amount = reader["Amount"].ToString();
+                    drug.Validity = reader["Validity"].ToString();
+                    drugList.Add(drug);
+                }
+                reader.Close();
+            }
+            catch (SqlException ex) { throw ex; }
+            finally { conn.Close(); }
+            return drugList;
+        }
+    }
+}
