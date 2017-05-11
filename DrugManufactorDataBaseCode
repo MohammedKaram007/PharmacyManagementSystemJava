@@ -1,0 +1,58 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+
+namespace project1
+{
+    public static class DrugManufactor2
+    {
+        public static SqlConnection GetConnection()
+        {
+            string connStr = @"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\HP\Desktop\project1\project1\project1.mdf;Integrated Security=True";
+            SqlConnection conn = new SqlConnection(connStr);
+            return conn;
+        }
+        public static void AddDrugManufactor1(string companyID ,string companyName, string address, string phone)
+        {
+            string insStmt = "INSRT INTO drug_manufactor (CompanyID , CompanyName , Address , Phone) VALUES @companyID @companyName , @address , @phone ";
+            SqlConnection conn = GetConnection();
+            SqlCommand insCmd = new SqlCommand(insStmt, conn);
+            insCmd.Parameters.AddWithValue("@companyID", companyID);
+            insCmd.Parameters.AddWithValue("@companyName", companyName);
+            insCmd.Parameters.AddWithValue("@address", address);
+            insCmd.Parameters.AddWithValue("@phone", phone);
+            try { conn.Open(); insCmd.ExecuteNonQuery(); }
+            catch (SqlException ex) { throw ex; }
+            finally { conn.Close(); }
+        }
+        public static List<DrugManufactor1> GetDrugManufactor1()
+        {
+            List<DrugManufactor1> drug_manufactorList = new List<DrugManufactor1> { };
+            SqlConnection conn = GetConnection();
+            string selStmt = "SELECT * FROM DRUG_MANUFACTOR ORDER BY DrugManufactorNumber";
+            SqlCommand selCmd = new SqlCommand(selStmt, conn);
+            try
+            {
+                conn.Open();
+                SqlDataReader reader = selCmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    DrugManufactor1 drug_manufactor = new DrugManufactor1();
+                    drug_manufactor.DrugManufactorNumber = (int)reader["DrugManufactorNumber"];
+                    drug_manufactor.CompanyID = reader["CompanyID"].ToString();
+                    drug_manufactor.CompanyName = reader["FirstName"].ToString();
+                    drug_manufactor.Address = reader["Address"].ToString();
+                    drug_manufactor.Phone = reader["Phone"].ToString();
+                    drug_manufactorList.Add(drug_manufactor);
+                }
+                reader.Close();
+            }
+            catch (SqlException ex) { throw ex; }
+            finally { conn.Close(); }
+            return drug_manufactorList;
+        }
+    }
+}
