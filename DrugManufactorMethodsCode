@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace project1
+{
+    public class DrugManufactor1
+    {
+        private int drugManufactorNumber;
+        private string companyID;
+        private string companyName;
+        private string address;
+        private string phone;
+        public DrugManufactor1() { }
+
+        public int DrugManufactorNumber
+        {
+            get { return drugManufactorNumber; }
+            set { drugManufactorNumber = value; }
+        }
+        public string CompanyID
+        {
+            get { return companyID; }
+            set { companyID = value; }
+        }
+        public string CompanyName
+        {
+            get { return companyName; }
+            set { companyName = value; }
+        }
+        public string Address
+        {
+            get { return address; }
+            set { address = value; }
+        }
+        public string Phone
+        {
+            get { return phone; }
+            set { phone = value; }
+        }
+    }
+}
